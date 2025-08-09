@@ -9,7 +9,7 @@ const TeacherPenalties = ({ onBack }) => {
     {
       id: 1,
       title: 'Late Assignment Submission',
-      sendos: '-10 Sendos',
+      sendos: '-10',
       validUntil: 'Valid until Mar 15, 2025',
       icon: '⚠️',
       category: 'assignment'
@@ -17,7 +17,7 @@ const TeacherPenalties = ({ onBack }) => {
     {
       id: 2,
       title: 'Disruptive Behavior',
-      sendos: '-25 Sendos',
+      sendos: '-25',
       validUntil: 'Valid until Apr 30, 2025',
       icon: '🚫',
       category: 'behavior'
@@ -25,7 +25,7 @@ const TeacherPenalties = ({ onBack }) => {
     {
       id: 3,
       title: 'Tardiness',
-      sendos: '-5 Sendos',
+      sendos: '-5',
       validUntil: 'Valid until Dec 31, 2025',
       icon: '⏰',
       category: 'attendance'
@@ -33,7 +33,7 @@ const TeacherPenalties = ({ onBack }) => {
     {
       id: 4,
       title: 'Phone Usage in Class',
-      sendos: '-15 Sendos',
+      sendos: '-15',
       validUntil: 'Valid until Jun 20, 2025',
       icon: '📱',
       category: 'device'
@@ -41,17 +41,17 @@ const TeacherPenalties = ({ onBack }) => {
     {
       id: 5,
       title: 'Missing Homework',
-      sendos: '-20 Sendos',
+      sendos: '-20',
       validUntil: 'Valid until May 15, 2025',
       icon: '📝',
       category: 'homework'
     }
   ]);
 
-  // Form states for creating/imposing penalties
+  // Form states
   const [imposeForm, setImposeForm] = useState({
     title: '',
-    type: '',
+    type: 'P',
     sendos: '',
     student: '',
     date: '',
@@ -72,16 +72,6 @@ const TeacherPenalties = ({ onBack }) => {
     'Michael Chen',
     'Sarah Wilson',
     'David Brown'
-  ];
-
-  const penaltyTypes = [
-    'Late Assignment',
-    'Disruptive Behavior',
-    'Tardiness',
-    'Phone Usage',
-    'Missing Homework',
-    'Inappropriate Language',
-    'Not Following Instructions'
   ];
 
   const handleImposePenalty = (penalty) => {
@@ -122,8 +112,8 @@ const TeacherPenalties = ({ onBack }) => {
       const newPenalty = {
         id: penalties.length + 1,
         title: createForm.title,
-        sendos: `-${createForm.sendosValue} Sendos`,
-        validUntil: createForm.date ? `Valid until ${new Date(createForm.date).toLocaleDateString()}` : 'Valid until Dec 31, 2025',
+        sendos: `-${createForm.sendosValue}`,
+        validUntil: createForm.date ? `Valid until ${new Date(createForm.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}` : 'Valid until Dec 31, 2025',
         icon: '❌',
         category: 'custom'
       };
@@ -137,92 +127,95 @@ const TeacherPenalties = ({ onBack }) => {
 
   // Penalties List View
   const renderPenaltiesList = () => (
-    <div className="penalties-scroll-content">
-      <div className="penalties-header-section">
-        <h2 className="penalties-title">Penalty Tasks</h2>
-        <button 
-          className="create-penalty-button"
-          onClick={handleCreatePenalty}
-        >
-          + Create New Penalty
+    <>
+      <div className="pen-header">
+        <button className="pen-back-button" onClick={onBack}>
+          <span>←</span>
+        </button>
+        <h1 className="pen-header-title">Penalty Tasks</h1>
+        <button className="pen-add-button" onClick={handleCreatePenalty}>
+          <span>+</span>
         </button>
       </div>
 
-      <div className="penalties-list">
+      <div className="pen-list-content">
         {penalties.map((penalty) => (
-          <div key={penalty.id} className="penalty-item">
-            <div className="penalty-icon">
-              <span className={`icon ${penalty.category}`}>{penalty.icon}</span>
+          <div key={penalty.id} className="pen-item">
+            <div className="pen-icon">
+              <span>{penalty.icon}</span>
             </div>
-            <div className="penalty-details">
-              <div className="penalty-title">{penalty.title}</div>
-              <div className="penalty-meta">
-                <span className="penalty-sendos">{penalty.sendos}</span>
-                <span className="penalty-valid">{penalty.validUntil}</span>
-              </div>
+            <div className="pen-info">
+              <h4 className="pen-title">{penalty.title}</h4>
+              <p className="pen-meta">{penalty.sendos} Sendos • {penalty.validUntil}</p>
             </div>
-            <div className="penalty-actions">
+            <div className="pen-button-group">
               <button 
-                className="impose-penalty-button"
+                className="pen-impose-button"
                 onClick={() => handleImposePenalty(penalty)}
               >
                 Impose Penalty
               </button>
-              <button className="edit-button">Edit</button>
+              <button className="pen-edit-button">
+                Edit
+              </button>
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 
   // Impose Penalty View
   const renderImposePenalty = () => (
-    <div className="penalties-scroll-content">
-      <div className="impose-header">
-        <h2 className="penalties-title">Impose Penalties</h2>
+    <>
+      <div className="pen-header">
+        <button className="pen-back-button" onClick={() => setCurrentView('penaltiesList')}>
+          <span>←</span>
+        </button>
+        <h1 className="pen-header-title">Impose Penalties</h1>
+        <div className="pen-header-spacer"></div>
       </div>
 
-      <div className="impose-form">
-        <div className="form-group">
-          <label className="form-label">Penalty Title</label>
+      <div className="pen-form-content">
+        <div className="pen-form-section">
+          <label className="pen-form-label">Penalty Title</label>
           <input
             type="text"
             value={imposeForm.title}
             onChange={(e) => setImposeForm({...imposeForm, title: e.target.value})}
-            className="form-input"
+            className="pen-form-input"
             placeholder="Late Submission of Assignment"
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Type</label>
+        <div className="pen-form-section">
+          <label className="pen-form-label">Type</label>
           <input
             type="text"
             value={imposeForm.type}
             onChange={(e) => setImposeForm({...imposeForm, type: e.target.value})}
-            className="form-input"
+            className="pen-form-input"
             placeholder="P"
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Number of Sendos</label>
+        <div className="pen-form-section">
+          <label className="pen-form-label">Number of Sendos</label>
           <input
             type="text"
             value={imposeForm.sendos}
             onChange={(e) => setImposeForm({...imposeForm, sendos: e.target.value})}
-            className="form-input"
+            className="pen-form-input"
             placeholder="-5 Sendos"
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Student Name</label>
+        <div className="pen-form-section">
+          <label className="pen-form-label">Student Name</label>
           <select
             value={imposeForm.student}
             onChange={(e) => setImposeForm({...imposeForm, student: e.target.value})}
-            className="form-select"
+            className="pen-form-select"
           >
             <option value="">Select a student</option>
             {students.map((student, index) => (
@@ -231,83 +224,87 @@ const TeacherPenalties = ({ onBack }) => {
           </select>
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Date</label>
+        <div className="pen-form-section">
+          <label className="pen-form-label">Date</label>
           <input
             type="date"
             value={imposeForm.date}
             onChange={(e) => setImposeForm({...imposeForm, date: e.target.value})}
-            className="form-input"
+            className="pen-form-input"
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Time</label>
+        <div className="pen-form-section">
+          <label className="pen-form-label">Time</label>
           <input
             type="time"
             value={imposeForm.time}
             onChange={(e) => setImposeForm({...imposeForm, time: e.target.value})}
-            className="form-input"
+            className="pen-form-input"
           />
         </div>
 
         <button 
-          className="validate-button"
+          className="pen-validate-button"
           onClick={handleValidateImpose}
         >
-          ✓ Validate
+          <span className="pen-check-icon">✓</span> Validate
         </button>
       </div>
-    </div>
+    </>
   );
 
   // Create Penalty View
   const renderCreatePenalty = () => (
-    <div className="penalties-scroll-content">
-      <div className="create-header">
-        <h2 className="penalties-title">Create Penalty</h2>
+    <>
+      <div className="pen-header">
+        <button className="pen-back-button" onClick={() => setCurrentView('penaltiesList')}>
+          <span>←</span>
+        </button>
+        <h1 className="pen-header-title">Create Penalty</h1>
+        <div className="pen-header-spacer"></div>
       </div>
 
-      <div className="create-form">
-        <div className="form-group">
-          <label className="form-label">Title</label>
+      <div className="pen-form-content">
+        <div className="pen-form-section">
+          <label className="pen-form-label">Title</label>
           <input
             type="text"
             value={createForm.title}
             onChange={(e) => setCreateForm({...createForm, title: e.target.value})}
-            className="form-input"
+            className="pen-form-input"
             placeholder="Enter penalty title"
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Description</label>
+        <div className="pen-form-section">
+          <label className="pen-form-label">Description</label>
           <textarea
             value={createForm.description}
             onChange={(e) => setCreateForm({...createForm, description: e.target.value})}
-            className="form-textarea"
+            className="pen-form-textarea"
             placeholder="Enter penalty description"
             rows="3"
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Sendos Value</label>
+        <div className="pen-form-section">
+          <label className="pen-form-label">Sendos Value</label>
           <input
             type="number"
             value={createForm.sendosValue}
             onChange={(e) => setCreateForm({...createForm, sendosValue: e.target.value})}
-            className="form-input"
+            className="pen-form-input"
             placeholder="0"
           />
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Recurrent State</label>
+        <div className="pen-form-section">
+          <label className="pen-form-label">Recurrent State</label>
           <select
             value={createForm.recurrentState}
             onChange={(e) => setCreateForm({...createForm, recurrentState: e.target.value})}
-            className="form-select"
+            className="pen-form-select"
           >
             <option value="">Select recurrence</option>
             <option value="once">One-time</option>
@@ -317,25 +314,25 @@ const TeacherPenalties = ({ onBack }) => {
           </select>
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Date</label>
+        <div className="pen-form-section">
+          <label className="pen-form-label">Date</label>
           <input
             type="date"
             value={createForm.date}
             onChange={(e) => setCreateForm({...createForm, date: e.target.value})}
-            className="form-input"
+            className="pen-form-input"
             placeholder="mm/dd/yyyy"
           />
         </div>
 
         <button 
-          className="validate-button"
+          className="pen-validate-button"
           onClick={handleValidateCreate}
         >
-          ✓ Validate
+          <span className="pen-check-icon">✓</span> Validate
         </button>
       </div>
-    </div>
+    </>
   );
 
   const getCurrentContent = () => {
@@ -352,33 +349,8 @@ const TeacherPenalties = ({ onBack }) => {
   };
 
   return (
-    <div className="teacher-penalties-container">
-      {/* Header */}
-      <div className="penalties-header">
-        <button 
-          className="back-button" 
-          onClick={() => {
-            if (currentView === 'penaltiesList') {
-              onBack();
-            } else {
-              setCurrentView('penaltiesList');
-            }
-          }}
-        >
-          ←
-        </button>
-        {currentView === 'imposePenalty' && (
-          <span className="header-title">Impose Penalties</span>
-        )}
-        {currentView === 'createPenalty' && (
-          <span className="header-title">Create Penalty</span>
-        )}
-      </div>
-
-      {/* Scrollable Content */}
-      <div className="penalties-content">
-        {getCurrentContent()}
-      </div>
+    <div className="pen-container">
+      {getCurrentContent()}
     </div>
   );
 };

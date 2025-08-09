@@ -1,34 +1,125 @@
 import React, { useState } from 'react';
+import './App.css';
 
 const StudentBalance = ({ onBack }) => {
   const [activeFilter, setActiveFilter] = useState('All Transactions');
-  const [currentBalance] = useState(2450); // Current balance from the design
+  const [currentBalance] = useState(2450);
 
-  // Mock transaction data based on the images
+  // Mock transaction data based on the Figma design
   const transactionData = {
     'All Transactions': [
-      { id: 1, type: 'Reward', description: 'Perfect Attendance', amount: '+50', date: 'Jan 15, 2025', icon: '🎁', category: 'reward' },
-      { id: 2, type: 'Purchase', description: 'School Supplies Bundle', amount: '-120', date: 'Jan 14, 2025', icon: '🛒', category: 'purchase' },
-      { id: 3, type: 'Interest', description: 'Interest Earned', amount: '+15', date: 'Jan 13, 2025', icon: '💰', category: 'interest' },
-      { id: 4, type: 'Penalty', description: 'Late Assignment', amount: '-25', date: 'Jan 12, 2025', icon: '⚠️', category: 'penalty' },
-      { id: 5, type: 'Purchase', description: 'Notebook Set', amount: '-35', date: 'Jan 11, 2025', icon: '🛒', category: 'purchase' },
-      { id: 6, type: 'Reward', description: 'Quiz Champion', amount: '+75', date: 'Jan 10, 2025', icon: '🎁', category: 'reward' }
+      { 
+        id: 1, 
+        type: 'Reward', 
+        description: 'Perfect Attendance', 
+        amount: '+50', 
+        date: 'Jan 15, 2025', 
+        icon: '🎁', 
+        category: 'reward'
+      },
+      { 
+        id: 2, 
+        type: 'Penalty', 
+        description: 'Late Assignment', 
+        amount: '-10', 
+        date: 'Jan 14, 2025', 
+        icon: '⚠️', 
+        category: 'penalty'
+      },
+      { 
+        id: 3, 
+        type: 'Interest', 
+        description: 'Monthly Interest', 
+        amount: '+18', 
+        date: 'Jan 26, 2024', 
+        icon: '💰', 
+        category: 'interest'
+      },
+      { 
+        id: 4, 
+        type: 'Supply Purchase', 
+        description: 'School Supplies Bundle', 
+        amount: '-120', 
+        date: 'Dec 26, 2024', 
+        icon: '🛒', 
+        category: 'purchase'
+      },
+      { 
+        id: 5, 
+        type: 'Land auction', 
+        description: 'Winning Bid Lot 43', 
+        amount: '-500', 
+        date: 'Jul 18, 2024', 
+        icon: '🏛️', 
+        category: 'auction'
+      },
+      { 
+        id: 6, 
+        type: 'RFP', 
+        description: 'Project Proposal', 
+        amount: '+250', 
+        date: 'Jul 15, 2024', 
+        icon: '📋', 
+        category: 'rfp'
+      }
     ],
     'Today': [
-      { id: 1, type: 'Interest', description: 'Weekly Interest Earned', amount: '+15', date: 'Jan 15, 2025', icon: '💰', category: 'interest' },
-      { id: 2, type: 'Reward', description: 'Perfect Attendance', amount: '+50', date: 'Jan 15, 2025', icon: '🎁', category: 'reward' },
-      { id: 3, type: 'Achievement', description: 'Math Quiz 100%', amount: '+100', date: 'Jan 15, 2025', icon: '🏆', category: 'achievement' },
-      { id: 4, type: 'Purchase', description: 'Pencil Case', amount: '-25', date: 'Jan 15, 2025', icon: '🛒', category: 'purchase' },
-      { id: 5, type: 'Homework', description: 'Completed Early', amount: '+30', date: 'Jan 15, 2025', icon: '📚', category: 'homework' },
-      { id: 6, type: 'Snack', description: 'Healthy Fruit Pack', amount: '-10', date: 'Jan 15, 2025', icon: '🍎', category: 'snack' },
-      { id: 7, type: 'Participation', description: 'Class Discussion', amount: '+20', date: 'Jan 15, 2025', icon: '🙋', category: 'participation' },
-      { id: 8, type: 'Stationery', description: 'Colored Markers', amount: '-15', date: 'Jan 15, 2025', icon: '✏️', category: 'stationery' }
+      { 
+        id: 1, 
+        type: 'Reward', 
+        description: 'Perfect Attendance', 
+        amount: '+50', 
+        date: 'Today', 
+        icon: '🎁', 
+        category: 'reward'
+      },
+      { 
+        id: 2, 
+        type: 'Achievement', 
+        description: 'Math Quiz 100%', 
+        amount: '+100', 
+        date: 'Today', 
+        icon: '🏆', 
+        category: 'achievement'
+      },
+      { 
+        id: 3, 
+        type: 'Purchase', 
+        description: 'Pencil Case', 
+        amount: '-25', 
+        date: 'Today', 
+        icon: '🛒', 
+        category: 'purchase'
+      }
     ],
     'Interest Earned': [
-      { id: 1, type: 'Interest', description: 'Weekly Interest Earned', amount: '+15', date: 'Jan 15, 2025', icon: '💰', category: 'interest' },
-      { id: 2, type: 'Interest', description: 'Weekly Interest Earned', amount: '+12', date: 'Jan 8, 2025', icon: '💰', category: 'interest' },
-      { id: 3, type: 'Interest', description: 'Weekly Interest Earned', amount: '+18', date: 'Jan 1, 2025', icon: '💰', category: 'interest' },
-      { id: 4, type: 'Interest', description: 'Weekly Interest Earned', amount: '+14', date: 'Dec 25, 2024', icon: '💰', category: 'interest' }
+      { 
+        id: 1, 
+        type: 'Interest', 
+        description: 'Weekly Interest Earned', 
+        amount: '+15', 
+        date: 'Jan 13, 2025', 
+        icon: '💰', 
+        category: 'interest'
+      },
+      { 
+        id: 2, 
+        type: 'Interest', 
+        description: 'Weekly Interest Earned', 
+        amount: '+18', 
+        date: 'Jan 6, 2025', 
+        icon: '💰', 
+        category: 'interest'
+      },
+      { 
+        id: 3, 
+        type: 'Interest', 
+        description: 'Weekly Interest Earned', 
+        amount: '+14', 
+        date: 'Dec 30, 2024', 
+        icon: '💰', 
+        category: 'interest'
+      }
     ]
   };
 
@@ -50,20 +141,53 @@ const StudentBalance = ({ onBack }) => {
   const currentTransactions = transactionData[activeFilter] || [];
 
   return (
-    <div className="balance-transaction-container">
+    <div className="student-balance">
+      {/* Status Bar */}
+      <div className="status-bar">
+        <div className="time">8:15</div>
+        <div className="signal-icons">
+          <span>📶</span>
+          <span>📶</span>
+          <span>🔋</span>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="balance-header">
         <button className="back-button" onClick={onBack}>
-          ←
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M19 12H5M12 19L5 12L12 5" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
       </div>
 
       {/* Balance Section */}
       <div className="balance-section">
-        <h2 className="balance-title">My Balance</h2>
-        <div className="balance-amount">{currentBalance.toLocaleString()}</div>
+        <h1 className="balance-title">My Balance</h1>
+        <div className="balance-display">
+          <div className="balance-amount">{currentBalance.toLocaleString()}</div>
+          <div className="balance-currency">Sendos</div>
+        </div>
+        
         {activeFilter === 'Today' && (
-          <div className="balance-change">{getBalanceChange()}</div>
+          <div className="balance-change-section">
+            <div className="balance-change-wrapper">
+              <div className="balance-change-amount">{getBalanceChange()}</div>
+              <div className="balance-change-label">Net Sendos</div>
+            </div>
+            <div className="balance-breakdown">
+              <div className="earned-section">
+                <span className="earned-label">Earned</span>
+                <span className="earned-amount">+200</span>
+              </div>
+              <div className="divider"></div>
+              <div className="spent-section">
+                <span className="spent-label">Spent</span>
+                <span className="spent-amount">-75</span>
+              </div>
+            </div>
+            <div className="balance-date">January 15, 2025</div>
+          </div>
         )}
         
         {/* Filter Tabs */}
@@ -85,16 +209,18 @@ const StudentBalance = ({ onBack }) => {
         <div className="transactions-list">
           {currentTransactions.map((transaction) => (
             <div key={transaction.id} className="transaction-item">
-              <div className="transaction-icon">
-                <span className={`icon ${transaction.category}`}>
-                  {transaction.icon}
-                </span>
+              <div className="transaction-left">
+                <div className={`transaction-icon ${transaction.category}`}>
+                  <span className="icon-emoji">
+                    {transaction.icon}
+                  </span>
+                </div>
+                <div className="transaction-details">
+                  <div className="transaction-type">{transaction.type}</div>
+                  <div className="transaction-description">{transaction.description}</div>
+                </div>
               </div>
-              <div className="transaction-details">
-                <div className="transaction-type">{transaction.type}</div>
-                <div className="transaction-description">{transaction.description}</div>
-              </div>
-              <div className="transaction-amount-section">
+              <div className="transaction-right">
                 <div className={`transaction-amount ${transaction.amount.startsWith('+') ? 'positive' : 'negative'}`}>
                   {transaction.amount}
                 </div>
@@ -103,6 +229,11 @@ const StudentBalance = ({ onBack }) => {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Bottom Navigation Indicator */}
+      <div className="bottom-indicator">
+        <div className="nav-line"></div>
       </div>
     </div>
   );

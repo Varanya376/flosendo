@@ -11,6 +11,9 @@ import TeacherPenalties from './teacherpenalties';
 import TeacherHistory from './teacherhistory';
 import TeacherBalance from './teacherbalance';
 import TeacherAssets from './teacherassets';
+import TeacherRFP from './teacherrfp';
+import StudentRFP from './studentrfp';
+import ManageLessons from './managelessons';
 import './App.css';
 
 function App() {
@@ -80,6 +83,24 @@ function App() {
     setCurrentView('teacherHistory');
   };
 
+  const handleNavigateToLessons = () => {
+    console.log('📖 handleNavigateToLessons called');
+    setPreviousView('dashboard');
+    setCurrentView('manageLessons');
+  };
+
+  const handleNavigateToStudentRFP = () => {
+    console.log('📋 handleNavigateToStudentRFP called');
+    setPreviousView('dashboard');
+    setCurrentView('studentRFP');
+  };
+
+  const handleNavigateToRFP = () => {
+    console.log('📋 handleNavigateToRFP called');
+    setPreviousView('dashboard');
+    setCurrentView('teacherRFP');
+  };
+
   const handleBackToAuth = () => {
     console.log('🔙 handleBackToAuth called');
     setCurrentView('auth');
@@ -127,6 +148,8 @@ function App() {
             onNavigateToProfile={handleNavigateToProfile}
             onNavigateToTeacherBalance={handleNavigateToTeacherBalance}
             onNavigateToAssets={handleNavigateToTeacherAssets}
+            onNavigateToLessons={handleNavigateToLessons}
+            onNavigateToRFP={handleNavigateToRFP}
           />;
         } else if (userRole === 'student') {
           console.log('👨‍🎓 Rendering StudentDashboard');
@@ -136,6 +159,7 @@ function App() {
             onNavigateToHistory={handleNavigateToHistory}
             onNavigateToAssets={handleNavigateToAssets}
             onNavigateToProfile={handleNavigateToProfile}
+            onNavigateToRFP={handleNavigateToStudentRFP}
           />;
         }
         console.log('❌ No matching role, falling back to Auth');
@@ -155,7 +179,10 @@ function App() {
 
       case 'studentAssets':
         console.log('🏗️ Rendering StudentAssets');
-        return <StudentAssets onBack={handleBackToDashboard} />;
+        return <StudentAssets 
+          onBack={handleBackToDashboard} 
+          onNavigateToRFP={handleNavigateToStudentRFP}
+        />;
 
       case 'teacherAssets':
         console.log('📋 Rendering TeacherAssets');
@@ -167,7 +194,10 @@ function App() {
 
       case 'teacherRewards':
         console.log('🎁 Rendering TeacherRewards');
-        return <TeacherRewards onBack={handleBackToDashboard} />;
+        return <TeacherRewards 
+          onBack={handleBackToDashboard} 
+          onNavigateToPenalties={handleNavigateToPenalties}
+        />;
 
       case 'teacherPenalties':
         console.log('⚠️ Rendering TeacherPenalties');
@@ -176,6 +206,18 @@ function App() {
       case 'teacherHistory':
         console.log('📚 Rendering TeacherHistory');
         return <TeacherHistory onBack={handleBackToDashboard} />;
+
+      case 'teacherRFP':
+        console.log('📋 Rendering TeacherRFP');
+        return <TeacherRFP onBack={handleBackToDashboard} />;
+
+      case 'studentRFP':
+        console.log('📋 Rendering StudentRFP');
+        return <StudentRFP onBack={handleBackToDashboard} />;
+
+      case 'manageLessons':
+        console.log('📖 Rendering ManageLessons');
+        return <ManageLessons onBack={handleBackToDashboard} />;
               
       default:
         console.log('❓ Default case, rendering Auth');

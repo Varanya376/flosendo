@@ -1,121 +1,139 @@
 import React, { useState } from 'react';
+import './App.css';
 
 const StudentHistory = ({ onBack }) => {
   const [expandedItems, setExpandedItems] = useState({});
 
-  // Mock history data based on the image
+  // Mock history data with rewards and penalties
   const historyData = [
     {
       id: 1,
-      type: 'Excellent Participation',
+      type: 'reward',
+      title: 'Excellent Participation',
       date: 'Jan 15, 2025',
       amount: '+50 Sendos',
-      icon: '🏆',
-      category: 'reward',
-      details: 'Actively participated in class discussion and asked thoughtful questions.'
+      icon: '🏆'
     },
     {
       id: 2,
-      type: 'Late Assignment',
+      type: 'penalty',
+      title: 'Late Assignment',
       date: 'Jan 14, 2025',
       amount: '-10 Sendos',
-      icon: '⚠️',
-      category: 'penalty',
-      details: 'Assignment submitted 2 days after the deadline.'
+      icon: '▲'
     },
     {
       id: 3,
-      type: 'Outstanding Project',
+      type: 'reward',
+      title: 'Outstanding Project',
       date: 'Jan 13, 2025',
       amount: '+75 Sendos',
-      icon: '⭐',
-      category: 'reward',
-      details: 'Exceptional work on the science project presentation.'
+      icon: '⭐'
     },
     {
       id: 4,
-      type: 'Missing Homework',
+      type: 'penalty',
+      title: 'Missing Homework',
       date: 'Jan 12, 2025',
       amount: '-5 Sendos',
-      icon: '📝',
-      category: 'penalty',
-      details: 'Failed to submit math homework on time.'
+      icon: '😔'
     },
     {
       id: 5,
-      type: 'Helping Classmates',
+      type: 'reward',
+      title: 'Helping Classmates',
       date: 'Jan 11, 2025',
       amount: '+30 Sendos',
-      icon: '🤝',
-      category: 'reward',
-      details: 'Helped struggling classmates understand difficult concepts.'
+      icon: '🤝'
     },
     {
       id: 6,
-      type: 'Disruptive Behavior',
+      type: 'penalty',
+      title: 'Disruptive Behavior',
       date: 'Jan 10, 2025',
       amount: '-40 Sendos',
-      icon: '🚫',
-      category: 'penalty',
-      details: 'Disrupted class during lesson time despite warnings.'
+      icon: '🚫'
     }
   ];
 
-  const toggleExpanded = (itemId) => {
+  const toggleExpand = (id) => {
     setExpandedItems(prev => ({
       ...prev,
-      [itemId]: !prev[itemId]
+      [id]: !prev[id]
     }));
   };
 
   return (
-    <div className="history-container">
+    <div className="student-history">
+      {/* Status Bar */}
+      <div className="status-bar">
+        <div className="time">8:15</div>
+        <div className="signal-icons">
+          <span>📶</span>
+          <span>📶</span>
+          <span>🔋</span>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="history-header">
         <button className="back-button" onClick={onBack}>
-          ←
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18L9 12L15 6" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
-        <h1 className="history-title">History</h1>
+        <h1 className="page-title">Rewards & Penalties</h1>
+        <div className="header-spacer"></div>
       </div>
 
       {/* History List */}
-      <div className="history-content">
+      <div className="history-container">
         <div className="history-list">
           {historyData.map((item) => (
-            <div key={item.id} className="history-item">
-              <div 
-                className="history-item-main"
-                onClick={() => toggleExpanded(item.id)}
-              >
-                <div className="history-icon">
-                  <span className={`icon ${item.category}`}>
+            <div key={item.id} className="history-list-item">
+              <div className="item-header" onClick={() => toggleExpand(item.id)}>
+                <div className="item-left">
+                  <div className={`item-icon ${item.type}`}>
                     {item.icon}
-                  </span>
+                  </div>
+                  <div className="item-info">
+                    <h3 className="item-title">{item.title}</h3>
+                    <p className="item-date">{item.date}</p>
+                  </div>
                 </div>
-                <div className="history-details">
-                  <div className="history-type">{item.type}</div>
-                  <div className="history-date">{item.date}</div>
-                </div>
-                <div className="history-amount-section">
-                  <div className={`history-amount ${item.amount.startsWith('+') ? 'positive' : 'negative'}`}>
+                <div className="item-right">
+                  <span className={`item-amount ${item.type}`}>
                     {item.amount}
-                  </div>
-                  <div className={`expand-arrow ${expandedItems[item.id] ? 'expanded' : ''}`}>
-                    ▼
-                  </div>
+                  </span>
+                  <svg 
+                    className={`chevron ${expandedItems[item.id] ? 'expanded' : ''}`}
+                    width="20" 
+                    height="20" 
+                    viewBox="0 0 24 24" 
+                    fill="none"
+                  >
+                    <path d="M6 9L12 15L18 9" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
               </div>
-              
               {expandedItems[item.id] && (
-                <div className="history-item-expanded">
-                  <div className="history-description">
-                    {item.details}
-                  </div>
+                <div className="item-details">
+                  <p className="detail-text">
+                    {item.type === 'reward' 
+                      ? `You earned ${item.amount} for ${item.title.toLowerCase()}.`
+                      : `You were penalized ${item.amount} for ${item.title.toLowerCase()}.`
+                    }
+                  </p>
                 </div>
               )}
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Bottom Navigation Indicator */}
+      <div className="bottom-indicator">
+        <div className="nav-line"></div>
       </div>
     </div>
   );
